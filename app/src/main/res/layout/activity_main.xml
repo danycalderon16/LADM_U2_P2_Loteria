@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_empezar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Empezar" />
+    <Button
+        android:id="@+id/btn_detener"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loteria" />
+    <Button
+        android:id="@+id/btn_barajear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Barajear" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:text="La chalupa"
+        android:textSize="26sp"/>
+    <ImageView
+        android:id="@+id/img_carta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@android:drawable/ic_input_add" />
+
+
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/teal_700"/>
+</LinearLayout>
