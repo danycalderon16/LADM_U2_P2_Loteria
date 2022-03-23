@@ -2,6 +2,7 @@ package mx.edu.ittepic.ladm_u2_p2_loteria
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import mx.edu.ittepic.ladm_u2_p2_loteria.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.name.text = "Barajeando"
+
+        Glide.with(this)
+            .load(R.raw.barajeo)
+            .into( binding.imgCarta)
         var hilo = Hilo(this)
 
         binding.btnEmpezar.setOnClickListener {
@@ -21,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnDetener.setOnClickListener {
             hilo.cambiarEstado()
+        }
+
+        binding.btnPausar.setOnClickListener {
+            hilo.cambiarPausar()
         }
     }
 }

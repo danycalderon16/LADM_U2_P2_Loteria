@@ -1,5 +1,7 @@
 package mx.edu.ittepic.ladm_u2_p2_loteria
 
+import android.util.Log
+import com.bumptech.glide.Glide
 import java.util.*
 import kotlin.random.Random
 
@@ -9,11 +11,76 @@ class Hilo(activity: MainActivity) : Thread() {
     var cartasSalidas = arrayListOf<Int>()
     var cartasSobrantes = arrayListOf<Int>()
 
-    var seguir = true
+    var jugando = true // empezar
+    var detener = false // alguien gano
+    var barajear = false // reinicar juego
+    var pausar = false // pausa juego TRUE = puasado  |  FALSE = detenido
     var activity = activity
 
     init {
         iniciarCartas()
+    }
+
+    override fun run() {
+        super.run()
+
+        while (true) {
+            if (jugando) {
+                if (pausar)
+                    activity.runOnUiThread{
+                        activity.binding.name.text = "Pausado"
+                        activity.binding.btnPausar.text = "Reanudar"
+                    }
+                else {
+                    val i = getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
+                        activity.binding.btnPausar.text = "Pausar"
+                    activity.runOnUiThread {
+                        if (i == 0) {
+                            /**
+                             * Salieron todas las cartas
+                             * */
+                            Log.i("============","Linea: "+39)
+                            activity.binding.name.text = "Nadie Gano. Barajenado"
+                            Glide.with(activity)
+                                .load(R.raw.barajeo)
+                                .into( activity.binding.imgCarta)
+                        }
+                        else {
+                            cartasSalidas.add(i)
+                            Glide.with(activity)
+                                .load(cartas[i].img)
+                                .into( activity.binding.imgCarta)
+                            activity.binding.name.text = "$i - ${cartas[i].id}"
+                            //activity.binding.imgCarta.setImageResource(cartas[i].img)
+                        }
+                    }
+                }
+            }
+            else
+                mostrarSobrenates()
+
+            sleep(200L)
+        }
+    }
+
+    fun getRandomId(i: Int, tope:Int): Int {
+        return if (tope == cartas.size-1) 0 else if (!(i in cartasSalidas)) i else getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
+    }
+
+    fun cambiarEstado() {
+        detener = !detener
+    }
+
+    fun mostrarSobrenates(){
+        var i = cartas.size-cartasSalidas.size
+        activity.runOnUiThread {
+            activity.binding.name.text = "linea 65 $i"
+        }
+
+    }
+
+    fun cambiarPausar(){
+        pausar = !pausar
     }
 
     private fun iniciarCartas() {
@@ -24,7 +91,7 @@ class Hilo(activity: MainActivity) : Thread() {
         cartas.add(Carta(5, R.drawable.img5, "El paraguas", 0))
         cartas.add(Carta(6, R.drawable.img6, "La sirena", 0))
         cartas.add(Carta(7, R.drawable.img7, "La escalera", 0))
-        cartas.add(Carta(9, R.drawable.img8, "La botela", 0))
+        cartas.add(Carta(8, R.drawable.img8, "La botela", 0))
         cartas.add(Carta(9, R.drawable.img9, "EL barril", 0))
         cartas.add(Carta(10, R.drawable.img10, "El árbol", 0))
         cartas.add(Carta(11, R.drawable.img11, "El melón", 0))
@@ -71,51 +138,6 @@ class Hilo(activity: MainActivity) : Thread() {
         cartas.add(Carta(52, R.drawable.img52, "La maceta", 0))
         cartas.add(Carta(53, R.drawable.img53, "El arpa", 0))
         cartas.add(Carta(54, R.drawable.img54, "La rana", 0))
-    }
-
-    override fun run() {
-        super.run()
-
-        while (true) {
-            if (seguir) {
-                if (cartasSalidas.size == cartas.size)
-                    activity.runOnUiThread{
-                        activity.binding.name.text = "Se acabo"
-                    }
-                else {
-                    val i = getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
-                    activity.runOnUiThread {
-                        if (i == 0)
-                            activity.binding.name.text = "ya se acabo"
-                        else {
-                            cartasSalidas.add(i)
-                            activity.binding.name.text = "$i - ${cartasSalidas.size}"
-                            activity.binding.imgCarta.setImageResource(cartas[i].img)
-                        }
-                    }
-                }
-            }
-            else
-                mostrarSobrenates()
-
-            sleep(200L)
-        }
-    }
-
-    fun getRandomId(i: Int, tope:Int): Int {
-        return if (tope == cartas.size-1) 0 else if (!(i in cartasSalidas)) i else getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
-    }
-
-    fun cambiarEstado() {
-        seguir = !seguir
-    }
-
-    fun mostrarSobrenates(){
-        var i = cartas.size-cartasSalidas.size
-        activity.runOnUiThread {
-            activity.binding.name.text = "linea 65 $i"
-        }
-
     }
 }
 

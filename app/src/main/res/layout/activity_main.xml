@@ -19,6 +19,11 @@
         android:layout_height="wrap_content"
         android:text="Loteria" />
     <Button
+        android:id="@+id/btn_pausar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pausar" />
+    <Button
         android:id="@+id/btn_barajear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +33,7 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:textAlignment="center"
         android:text="La chalupa"
         android:textSize="26sp"/>
