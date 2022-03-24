@@ -3,6 +3,7 @@ package mx.edu.ittepic.ladm_u2_p2_loteria
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.GlobalScope
@@ -32,14 +33,18 @@ class MainActivity : AppCompatActivity() {
             binding.btnEmpezar.isEnabled = false
         }
 
-        /**Loteria*/
+        /**Buenas*/
         binding.btnDetener.setOnClickListener {
-            hilo.cambiarEstado()
+            if(hilo.jugando && !hilo.pausar) {
+                Toast.makeText(this, "Loteria", Toast.LENGTH_SHORT).show()
+                hilo.detenerJuego()
+            }
         }
 
         /**Pausar*/
         binding.btnPausar.setOnClickListener {
             hilo.cambiarPausar()
+            Log.i("Pausar-Verificar",hilo.pausar.toString()+" - "+hilo.detener.toString())
         }
         /**Barajear*/
         binding.btnBarajear.setOnClickListener {
@@ -57,7 +62,8 @@ class MainActivity : AppCompatActivity() {
                     d.dismiss()
                 }
                 .setNegativeButton("Cancelar") { d, i ->
-                    hilo.cambiarEstado()
+                    //hilo.detenerJuego()
+                    hilo.cambiarPausar()
                     d.dismiss()
                 }
                 .show()

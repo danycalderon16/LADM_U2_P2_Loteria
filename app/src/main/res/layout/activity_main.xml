@@ -17,7 +17,7 @@
         android:id="@+id/btn_detener"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Loteria" />
+        android:text="¡¡¡BUenas!!!" />
     <Button
         android:id="@+id/btn_pausar"
         android:layout_width="match_parent"
