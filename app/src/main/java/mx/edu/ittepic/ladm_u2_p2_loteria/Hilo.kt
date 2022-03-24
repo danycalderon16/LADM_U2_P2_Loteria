@@ -9,16 +9,23 @@ class Hilo(activity: MainActivity) : Thread() {
 
     var cartas = arrayListOf<Carta>()
     var cartasSalidas = arrayListOf<Int>()
-    var cartasSobrantes = arrayListOf<Int>()
+    var cartasSobrantes = arrayListOf<Carta>()
 
     var jugando = true // empezar
     var detener = false // alguien gano
-    var barajear = false // reinicar juego
+    var barajear = true // reinicar juego
     var pausar = false // pausa juego TRUE = puasado  |  FALSE = detenido
     var activity = activity
+    var i = 0
 
+    var cuenta = 2
     init {
         iniciarCartas()
+        cartas.shuffle()
+        cartas.forEach {
+            Log.i("cartas","${it.id}")
+        }
+        cartasSobrantes = cartas
     }
 
     override fun run() {
@@ -26,41 +33,86 @@ class Hilo(activity: MainActivity) : Thread() {
 
         while (true) {
             if (jugando) {
-                if (pausar)
-                    activity.runOnUiThread{
-                        activity.binding.name.text = "Pausado"
-                        activity.binding.btnPausar.text = "Reanudar"
-                    }
-                else {
-                    val i = getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
-                        activity.binding.btnPausar.text = "Pausar"
+                if(barajear && cuenta!=0){
                     activity.runOnUiThread {
-                        if (i == 0) {
-                            /**
-                             * Salieron todas las cartas
-                             * */
-                            Log.i("============","Linea: "+39)
-                            activity.binding.name.text = "Nadie Gano. Barajenado"
-                            Glide.with(activity)
-                                .load(R.raw.barajeo)
-                                .into( activity.binding.imgCarta)
+                    activity.binding.name.text = "${cuenta--}"
+                    Glide.with(activity)
+                        .load(R.raw.barajeo)
+                        .into( activity.binding.imgCarta)
+                    }
+                }else {
+                    if (pausar)
+                        activity.runOnUiThread {
+                            activity.binding.name.text = "Pausado"
+                            activity.binding.btnPausar.text = "Reanudar"
                         }
-                        else {
-                            cartasSalidas.add(i)
-                            Glide.with(activity)
-                                .load(cartas[i].img)
-                                .into( activity.binding.imgCarta)
-                            activity.binding.name.text = "$i - ${cartas[i].id}"
-                            //activity.binding.imgCarta.setImageResource(cartas[i].img)
+                    else {
+                        activity.runOnUiThread {
+                            Log.i("============", "Linea: " + cartas.size)
+                            if (i<cartas.size) {
+                                Glide.with(activity)
+                                    .load(cartas[i].img)
+                                    .into(activity.binding.imgCarta)
+                                activity.binding.name.text = "$i - ${cartas[i].id}"
+                                i++
+                            }else{
+                                /**
+                                 * Salieron todas las cartas
+                                 * */
+                                Log.i("============", "Linea: " + 39)
+                                activity.binding.name.text = "Nadie Gano. Barajenado"
+                                Glide.with(activity)
+                                    .load(R.raw.barajeo)
+                                    .into(activity.binding.imgCarta)
+                            }
                         }
+                        /*
+                        val i = getRandomId(Random.nextInt(1, cartas.size), cartasSalidas.size)
+                        activity.binding.btnPausar.text = "Pausar"
+                        activity.runOnUiThread {
+                            if (i == 0) {
+                                /**
+                                 * Salieron todas las cartas
+                                 * */
+                                Log.i("============", "Linea: " + 39)
+                                activity.binding.name.text = "Nadie Gano. Barajenado"
+                                Glide.with(activity)
+                                    .load(R.raw.barajeo)
+                                    .into(activity.binding.imgCarta)
+                            } else {
+                                cartasSalidas.add(i)
+                                cartasSalidas.forEach {
+                                    Log.i("cartas salidas 63", "${cartasSalidas}")
+                                }
+                                Log.i("cartas salidas 63", "--------------------")
+                                eliminarCarta(cartas[i])
+                                Glide.with(activity)
+                                    .load(cartas[i].img)
+                                    .into(activity.binding.imgCarta)
+                                activity.binding.name.text = "$i - ${cartas[i].id}"
+                            }
+                        }*/
                     }
                 }
             }
             else
                 mostrarSobrenates()
 
-            sleep(200L)
+            sleep(500L)
         }
+    }
+
+    fun eliminarCarta(carta: Carta){
+       var index = 0
+
+/*        (0..cartasSobrantes.size).forEach {
+            if(cartasSobrantes[it-1].id == carta.id )
+                index = it-1
+        }
+  */      Log.i("Carta", carta.toString()+" index${index}")
+        cartasSobrantes.remove(carta)
+
+//        cartasSobrantes.removeIf {it==carta}
     }
 
     fun getRandomId(i: Int, tope:Int): Int {
@@ -71,12 +123,20 @@ class Hilo(activity: MainActivity) : Thread() {
         detener = !detener
     }
 
+    fun reiniciar(){
+        cartas.shuffle()
+        cartasSalidas.clear()
+        cartasSobrantes.clear()
+        cuenta = 5
+        barajear = true
+        pausar = false
+    }
+
     fun mostrarSobrenates(){
         var i = cartas.size-cartasSalidas.size
         activity.runOnUiThread {
             activity.binding.name.text = "linea 65 $i"
         }
-
     }
 
     fun cambiarPausar(){

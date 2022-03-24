@@ -16,4 +16,9 @@ class Carta(id:Int,img:Int, nombre:String, audio:Int){
         this.audio = audio
     }
 
+    override fun toString(): String {
+        return "Carta(id=$id, img=$img, nombre='$nombre', audio=$audio)"
+    }
+
+
 }

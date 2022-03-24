@@ -2,6 +2,8 @@ package mx.edu.ittepic.ladm_u2_p2_loteria
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import mx.edu.ittepic.ladm_u2_p2_loteria.databinding.ActivityMainBinding
 
@@ -25,12 +27,34 @@ class MainActivity : AppCompatActivity() {
             hilo.start()
         }
 
+        /**Loteria*/
         binding.btnDetener.setOnClickListener {
             hilo.cambiarEstado()
         }
 
+        /**Pausar*/
         binding.btnPausar.setOnClickListener {
             hilo.cambiarPausar()
         }
+        /**Barajear*/
+        binding.btnBarajear.setOnClickListener {
+
+            Log.i("Cartas salidas","${hilo.cartasSalidas.size}")
+            Log.i("Cartas sobrantes","${hilo.cartasSobrantes.size}")
+            if(!hilo.pausar)
+                hilo.cambiarPausar()
+            AlertDialog.Builder(this)
+                .setTitle("Barajear")
+                .setMessage("¿Está seguro de reiniciar el juego?")
+                .setPositiveButton("Sí") { d, i ->
+                    hilo.reiniciar()
+                    d.dismiss()
+                }
+                .setNegativeButton("Cancelar") { d, i ->
+                    hilo.cambiarEstado()
+                    d.dismiss() }
+                .show()
+        }
+
     }
 }
