@@ -17,6 +17,7 @@ class Hilo(activity: MainActivity) : Thread() {
     var barajear = true // reinicar juego
     var pausar = false // pausa juego TRUE = puasado  |  FALSE = detenido
     var activity = activity
+    var revisar = 0
     var i = 0
 
     var frases = arrayOf("", "Fuera", "Listos", "En sus marcas")
@@ -43,21 +44,35 @@ class Hilo(activity: MainActivity) : Thread() {
                         activity.runOnUiThread {
                             activity.binding.name.text = "Pausado"
                             activity.binding.btnPausar.text = "Reanudar"
+
                         }
                     else {
                         if (detener) {
                             activity.runOnUiThread {
-                                activity.binding.btnPausar.text = "VERIFICAR CARTAS"
+                                activity.binding.btnDetener.text = "VERIFICAR CARTAS"
+                                Glide.with(activity)
+                                    .load(R.drawable.buenas)
+                                    .into(activity.binding.imgCarta)
+                            }
+                            if(revisar==2){
+                                if (i<cartas.size-1)
+                                    i++
+                                activity.runOnUiThread {
+                                    activity.binding.name.text = "VERIFICANDO CARTAS $i"
+                                    Glide.with(activity)
+                                        .load(cartas[i].img)
+                                        .into(activity.binding.imgCarta)
+                                }
                             }
                         } else {
                             activity.runOnUiThread {
                                 activity.binding.btnPausar.text = "Pausar"
                                 if (i < cartas.size) {
-                                    Log.i("============", "if 49: " + i)
+                                    //Log.i("============", "if 49: " + i)
                                     Glide.with(activity)
                                         .load(cartas[i].img)
                                         .into(activity.binding.imgCarta)
-                                    activity.binding.name.text = "$i - ${cartas[i].id}"
+                                    activity.binding.name.text = "index $i "
                                     //val mp = MediaPlayer.create(activity, cartas[i].audio)
                                     //mp.start()
                                     i++
@@ -65,7 +80,7 @@ class Hilo(activity: MainActivity) : Thread() {
                                     /**
                                      * Salieron todas las cartas
                                      * */
-                                    Log.i("============", "else 59: " + i + "-" + cartas.size)
+                                  //  Log.i("============", "else 59: " + i + "-" + cartas.size)
                                     activity.binding.name.text = "Nadie Gano. Barajenado"
                                     Glide.with(activity)
                                         .load(R.raw.barajeo)
@@ -112,6 +127,7 @@ class Hilo(activity: MainActivity) : Thread() {
         barajear = true
         pausar = false
         i = 0
+        revisar = 0
         detener = false
     }
 
@@ -126,7 +142,7 @@ class Hilo(activity: MainActivity) : Thread() {
         pausar = !pausar
     }
 
-    fun seEstaJugando():Boolean{
+    fun seEstaJugando(): Boolean {
         return jugando
     }
 

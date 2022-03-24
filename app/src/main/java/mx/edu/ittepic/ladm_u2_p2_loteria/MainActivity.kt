@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        rutina2daPlanoAsincrono()
+        mostrarBarajeo()
 
         binding.name.text = "Barajeando"
 
@@ -36,15 +36,22 @@ class MainActivity : AppCompatActivity() {
         /**Buenas*/
         binding.btnDetener.setOnClickListener {
             if(hilo.jugando && !hilo.pausar) {
+                if(hilo.revisar <2)
+                    hilo.revisar = hilo.revisar + 1
                 Toast.makeText(this, "Loteria", Toast.LENGTH_SHORT).show()
+                Log.i("Pausar-detener-revisar",hilo.pausar.toString()+" - "+hilo.detener.toString()+"- "+hilo.revisar)
                 hilo.detenerJuego()
+
             }
         }
 
         /**Pausar*/
         binding.btnPausar.setOnClickListener {
             hilo.cambiarPausar()
-            Log.i("Pausar-Verificar",hilo.pausar.toString()+" - "+hilo.detener.toString())
+            //Log.i("Pausar-Verificar",hilo.pausar.toString()+" - "+hilo.detener.toString())
+            (hilo.i .. hilo.cartas.size-1).forEach {
+              Log.i("Sobrantes",hilo.cartas[it].toString())
+            }
         }
         /**Barajear*/
         binding.btnBarajear.setOnClickListener {
@@ -58,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 .setMessage("¿Está seguro de reiniciar el juego?")
                 .setPositiveButton("Sí") { d, i ->
                     hilo.reiniciar()
-                    rutina2daPlanoAsincrono()
+                    mostrarBarajeo()
                     d.dismiss()
                 }
                 .setNegativeButton("Cancelar") { d, i ->
@@ -71,14 +78,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun rutina2daPlanoAsincrono() = GlobalScope.launch {
-
+    fun mostrarBarajeo() = GlobalScope.launch {
         runOnUiThread {
             Glide.with(baseContext)
                 .load(R.raw.barajeo)
                 .into( binding.imgCarta)
         }
         delay(1000L)
-
     }
 }
