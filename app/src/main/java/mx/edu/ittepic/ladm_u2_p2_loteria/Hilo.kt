@@ -54,7 +54,7 @@ class Hilo(var activity: MainActivity) : Thread() {
                             if (revisar == 2) {
                                 if (i < cartas.size) {
                                     activity.runOnUiThread {
-                                        activity.binding.name.text = "VERIFICANDO CARTAS $i"
+                                        activity.binding.name.text = "VERIFICANDO CARTAS ${i+1}"
                                         Glide.with(activity)
                                             .load(cartas[i].img)
                                             .into(activity.binding.imgCarta)
@@ -72,7 +72,7 @@ class Hilo(var activity: MainActivity) : Thread() {
                                     Glide.with(activity)
                                         .load(cartas[i].img)
                                         .into(activity.binding.imgCarta)
-                                    activity.binding.name.text = "$i ${cartas[i].nombre} "
+                                    activity.binding.name.text = "${i+1} ${cartas[i].nombre} "
                                     audio = MediaPlayer.create(activity, cartas[i].audio)
                                     audio.start()
                                     i++
