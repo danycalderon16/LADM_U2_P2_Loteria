@@ -92,8 +92,8 @@ class Hilo(var activity: MainActivity) : Thread() {
                 }
             }
 
-            audio.stop()
-            sleep(1500L)
+            audio.release()
+            sleep(2000L)
         }
     }
 
