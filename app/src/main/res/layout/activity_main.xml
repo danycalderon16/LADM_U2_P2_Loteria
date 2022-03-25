@@ -17,17 +17,20 @@
         android:id="@+id/btn_detener"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="¡¡¡BUenas!!!" />
+        android:text="¡¡¡BUenas!!!"
+        android:enabled="false"/>
     <Button
         android:id="@+id/btn_pausar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pausar" />
+        android:text="Pausar"
+        android:enabled="false"/>
     <Button
         android:id="@+id/btn_barajear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Barajear" />
+        android:text="Barajear"
+        android:enabled="false"/>
 
     <TextView
         android:id="@+id/name"

@@ -55,16 +55,15 @@ class Hilo(activity: MainActivity) : Thread() {
                                     .into(activity.binding.imgCarta)
                             }
                             if (revisar == 2) {
-                                if (i < cartas.size - 1) {
-                                    i++
+                                if (i < cartas.size) {
                                     activity.runOnUiThread {
-                                        activity.binding.name.text = "VERIFICANDO CARTAS"
+                                        activity.binding.name.text = "VERIFICANDO CARTAS $i"
                                         Glide.with(activity)
                                             .load(cartas[i].img)
                                             .into(activity.binding.imgCarta)
                                         val mp = MediaPlayer.create(activity, cartas[i].audio)
                                         mp.start()
-                                        sleep(500L)
+                                    i++
                                     }
                                 }
                             }
@@ -79,7 +78,6 @@ class Hilo(activity: MainActivity) : Thread() {
                                     activity.binding.name.text = "$i ${cartas[i].nombre} "
                                     val mp = MediaPlayer.create(activity, cartas[i].audio)
                                     mp.start()
-                                    sleep(500L)
                                     i++
                                 } else {
                                     /**
@@ -98,21 +96,8 @@ class Hilo(activity: MainActivity) : Thread() {
             } else
                 mostrarSobrenates()
 
-            sleep(3000L)
+            sleep(1500L)
         }
-    }
-
-    fun eliminarCarta(carta: Carta) {
-        var index = 0
-
-/*        (0..cartasSobrantes.size).forEach {
-            if(cartasSobrantes[it-1].id == carta.id )
-                index = it-1
-        }
-  */      Log.i("Carta", carta.toString() + " index${index}")
-        cartasSobrantes.remove(carta)
-
-//        cartasSobrantes.removeIf {it==carta}
     }
 
     fun getRandomId(i: Int, tope: Int): Int {
@@ -160,7 +145,7 @@ class Hilo(activity: MainActivity) : Thread() {
         cartas.add(Carta(1, R.drawable.img1, "El gallo", R.raw.aud1))
         cartas.add(Carta(2, R.drawable.img2, "El diablo", R.raw.aud2))
         cartas.add(Carta(3, R.drawable.img3, "La dama", R.raw.aud3))
-        cartas.add(Carta(4, R.drawable.img4, "El catrín", R.raw.aud4))
+     /*   cartas.add(Carta(4, R.drawable.img4, "El catrín", R.raw.aud4))
         cartas.add(Carta(5, R.drawable.img5, "El paraguas", R.raw.aud5))
         cartas.add(Carta(6, R.drawable.img6, "La sirena", R.raw.aud6))
         cartas.add(Carta(7, R.drawable.img7, "La escalera", R.raw.aud7))
@@ -210,7 +195,7 @@ class Hilo(activity: MainActivity) : Thread() {
         cartas.add(Carta(51, R.drawable.img51, "La palma", R.raw.aud51))
         cartas.add(Carta(52, R.drawable.img52, "La maceta", R.raw.aud52))
         cartas.add(Carta(53, R.drawable.img53, "El arpa", R.raw.aud53))
-        cartas.add(Carta(54, R.drawable.img54, "La rana", R.raw.aud54))
+        cartas.add(Carta(54, R.drawable.img54, "La rana", R.raw.aud54))*/
     }
 }
 

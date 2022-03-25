@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnEmpezar.setOnClickListener {
             hilo.start()
             binding.btnEmpezar.isEnabled = false
+            binding.btnDetener.isEnabled = true
+            binding.btnPausar.isEnabled = true
+            binding.btnBarajear.isEnabled = true
         }
 
         /**Buenas*/
