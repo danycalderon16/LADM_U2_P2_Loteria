@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
             if(hilo.jugando && !hilo.pausar) {
                 if(hilo.revisar <2)
                     hilo.revisar = hilo.revisar + 1
-                Toast.makeText(this, "Loteria", Toast.LENGTH_SHORT).show()
                 Log.i("Pausar-detener-revisar",hilo.pausar.toString()+" - "+hilo.detener.toString()+"- "+hilo.revisar)
                 hilo.detenerJuego()
 
