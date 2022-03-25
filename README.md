@@ -12,7 +12,7 @@ MTI SERGIO BENIGNO CASTILLO VALTIERRA
 
 ![avatar](gif.gif)
 
-- Boton de EMPEZAR - Al hacer clic en él, se empiezan a lanzar las cartas
-- Boton de ¡¡¡ BUENAS !!! - Al hacer clic en él, se pausa el juego, y dando clic otra vez, se lanzan las cartas que no han salido
-- Boton de PAUSAR/REANUDAR  - Al hacer clic en él se pausa o reanuda el juego
-- Boton de BARAJEAR - Al hacer clic en él, se reinicia el juego
+- Boton de **EMPEZAR** - Al hacer clic en él, se empiezan a lanzar las cartas
+- Boton de **¡¡¡ BUENAS !!!** - Al hacer clic en él, se pausa el juego, y dando clic otra vez, se lanzan las cartas que no han salido
+- Boton de **PAUSAR/REANUDAR**  - Al hacer clic en él se pausa o reanuda el juego
+- Boton de **BARAJEAR** - Al hacer clic en él, se reinicia el juego
