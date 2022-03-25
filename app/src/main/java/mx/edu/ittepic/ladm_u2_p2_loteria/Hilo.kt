@@ -76,7 +76,7 @@ class Hilo(activity: MainActivity) : Thread() {
                                     Glide.with(activity)
                                         .load(cartas[i].img)
                                         .into(activity.binding.imgCarta)
-                                    activity.binding.name.text = "${cartas[i].nombre} "
+                                    activity.binding.name.text = "$i ${cartas[i].nombre} "
                                     val mp = MediaPlayer.create(activity, cartas[i].audio)
                                     mp.start()
                                     sleep(500L)
@@ -98,7 +98,7 @@ class Hilo(activity: MainActivity) : Thread() {
             } else
                 mostrarSobrenates()
 
-            sleep(2000L)
+            sleep(3000L)
         }
     }
 
