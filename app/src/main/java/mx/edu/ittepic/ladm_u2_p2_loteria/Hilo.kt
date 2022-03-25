@@ -1,12 +1,10 @@
 package mx.edu.ittepic.ladm_u2_p2_loteria
 
 import android.media.MediaPlayer
-import android.util.Log
 import com.bumptech.glide.Glide
-import java.util.*
 import kotlin.random.Random
 
-class Hilo(activity: MainActivity) : Thread() {
+class Hilo(var activity: MainActivity) : Thread() {
 
     var cartas = arrayListOf<Carta>()
     var cartasSalidas = arrayListOf<Int>()
@@ -16,17 +14,18 @@ class Hilo(activity: MainActivity) : Thread() {
     var detener = false // alguien gano
     var barajear = true // reinicar juego
     var pausar = false // pausa juego TRUE = puasado  |  FALSE = detenido
-    var activity = activity
     var revisar = 0
     var i = 0
 
     var frases = arrayOf("", "Fuera", "Listos", "En sus marcas")
     var cuenta = 3
+    var audio : MediaPlayer
 
     init {
         iniciarCartas()
         cartas.shuffle()
         cartasSobrantes = cartas
+        audio = MediaPlayer.create(activity, R.raw.audbarajeo)
     }
 
     override fun run() {
@@ -36,15 +35,13 @@ class Hilo(activity: MainActivity) : Thread() {
             if (jugando) {
                 if (barajear && cuenta != 0) {
                     activity.runOnUiThread {
-                        activity.binding.name.text = "${frases[cuenta--]}"
-
+                        activity.binding.name.text = frases[cuenta--]
                     }
                 } else {
                     if (pausar && !detener)
                         activity.runOnUiThread {
                             activity.binding.name.text = "Pausado"
                             activity.binding.btnPausar.text = "Reanudar"
-
                         }
                     else {
                         if (detener) {
@@ -61,8 +58,8 @@ class Hilo(activity: MainActivity) : Thread() {
                                         Glide.with(activity)
                                             .load(cartas[i].img)
                                             .into(activity.binding.imgCarta)
-                                        val mp = MediaPlayer.create(activity, cartas[i].audio)
-                                        mp.start()
+                                        audio = MediaPlayer.create(activity, cartas[i].audio)
+                                        audio.start()
                                     i++
                                     }
                                 }
@@ -76,8 +73,8 @@ class Hilo(activity: MainActivity) : Thread() {
                                         .load(cartas[i].img)
                                         .into(activity.binding.imgCarta)
                                     activity.binding.name.text = "$i ${cartas[i].nombre} "
-                                    val mp = MediaPlayer.create(activity, cartas[i].audio)
-                                    mp.start()
+                                    audio = MediaPlayer.create(activity, cartas[i].audio)
+                                    audio.start()
                                     i++
                                 } else {
                                     /**
@@ -93,9 +90,9 @@ class Hilo(activity: MainActivity) : Thread() {
                         }
                     }
                 }
-            } else
-                mostrarSobrenates()
+            }
 
+            audio.stop()
             sleep(1500L)
         }
     }
@@ -137,15 +134,11 @@ class Hilo(activity: MainActivity) : Thread() {
         pausar = !pausar
     }
 
-    fun seEstaJugando(): Boolean {
-        return jugando
-    }
-
     private fun iniciarCartas() {
         cartas.add(Carta(1, R.drawable.img1, "El gallo", R.raw.aud1))
         cartas.add(Carta(2, R.drawable.img2, "El diablo", R.raw.aud2))
         cartas.add(Carta(3, R.drawable.img3, "La dama", R.raw.aud3))
-     /*   cartas.add(Carta(4, R.drawable.img4, "El catrín", R.raw.aud4))
+        cartas.add(Carta(4, R.drawable.img4, "El catrín", R.raw.aud4))
         cartas.add(Carta(5, R.drawable.img5, "El paraguas", R.raw.aud5))
         cartas.add(Carta(6, R.drawable.img6, "La sirena", R.raw.aud6))
         cartas.add(Carta(7, R.drawable.img7, "La escalera", R.raw.aud7))
@@ -195,7 +188,7 @@ class Hilo(activity: MainActivity) : Thread() {
         cartas.add(Carta(51, R.drawable.img51, "La palma", R.raw.aud51))
         cartas.add(Carta(52, R.drawable.img52, "La maceta", R.raw.aud52))
         cartas.add(Carta(53, R.drawable.img53, "El arpa", R.raw.aud53))
-        cartas.add(Carta(54, R.drawable.img54, "La rana", R.raw.aud54))*/
+        cartas.add(Carta(54, R.drawable.img54, "La rana", R.raw.aud54))
     }
 }
 

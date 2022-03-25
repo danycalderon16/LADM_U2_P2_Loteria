@@ -1,5 +1,6 @@
 package mx.edu.ittepic.ladm_u2_p2_loteria
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -38,10 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         /**Buenas*/
         binding.btnDetener.setOnClickListener {
-            if(hilo.jugando && !hilo.pausar) {
-                if(hilo.revisar <2)
+            if (hilo.jugando && !hilo.pausar) {
+                if (hilo.revisar < 2)
                     hilo.revisar = hilo.revisar + 1
-                Log.i("Pausar-detener-revisar",hilo.pausar.toString()+" - "+hilo.detener.toString()+"- "+hilo.revisar)
+                Log.i(
+                    "Pausar-detener-revisar",
+                    hilo.pausar.toString() + " - " + hilo.detener.toString() + "- " + hilo.revisar
+                )
                 hilo.detenerJuego()
 
             }
@@ -51,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnPausar.setOnClickListener {
             hilo.cambiarPausar()
             //Log.i("Pausar-Verificar",hilo.pausar.toString()+" - "+hilo.detener.toString())
-            (hilo.i .. hilo.cartas.size-1).forEach {
-              Log.i("Sobrantes",hilo.cartas[it].toString())
+            (hilo.i..hilo.cartas.size - 1).forEach {
+                Log.i("Sobrantes", hilo.cartas[it].toString())
             }
         }
         /**Barajear*/
@@ -84,7 +88,9 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             Glide.with(baseContext)
                 .load(R.raw.barajeo)
-                .into( binding.imgCarta)
+                .into(binding.imgCarta)
+            val audio = MediaPlayer.create(baseContext, R.raw.audbarajeo)
+            audio.start()
         }
         delay(1000L)
     }
